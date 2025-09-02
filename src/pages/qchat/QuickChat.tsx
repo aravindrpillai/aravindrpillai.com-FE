@@ -85,7 +85,7 @@ export default function QuickChat() {
       } catch (error) {
         console.error("Polling failed:", error);
       }
-    }, 5000);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, [startPolling]);
