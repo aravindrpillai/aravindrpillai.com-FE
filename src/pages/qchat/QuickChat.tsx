@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, Trash2Icon, Loader2 } from "lucide-react";
+import { Send, Trash2Icon, Loader2, Smile } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ApiClient from "@/lib/api";
 import CryptoJS from "crypto-js";
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 
 export default function QuickChat() {
   const { name, sender } = useParams();
@@ -16,15 +17,20 @@ export default function QuickChat() {
   const [messages, setMessages] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
   const lastIdRef = useRef(0);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [autoScroll, setAutoScroll] = useState(true);
   const [startPolling, setStartPolling] = useState(false);
 
+  const handleEmojiClick = (emojiData: EmojiClickData) => {
+    setNewMessage((prev) => prev + emojiData.emoji);
+    setShowEmojiPicker(false);
+  };
+
   // Initial setup
   useEffect(() => {
-    console.log("Params:", name, sender);
-
     if (!name) {
       const convName = prompt("Enter Conversation Name");
       setStartPolling(false);
@@ -51,7 +57,6 @@ export default function QuickChat() {
         setStartPolling(true);
       }
     } else {
-      console.log("All good:", name, code, sender);
       setHeaders({
         "Content-Type": "application/json",
         name: name,
@@ -76,7 +81,6 @@ export default function QuickChat() {
     const interval = setInterval(async () => {
       try {
         let msgs = await getConversations(lastIdRef.current, false);
-        console.log("Polling Resp: ", msgs);
         if (msgs && msgs.length > 0) {
           setMessages((prev) => mergeMessages(prev, msgs));
           const maxId = Math.max(...msgs.map((item) => item.id));
@@ -201,7 +205,7 @@ export default function QuickChat() {
       return bytes.toString(CryptoJS.enc.Utf8);
     } catch (e) {
       console.error("Decryption failed:", e);
-      return "";
+      return "<Decryption Failed>";
     }
   }
 
@@ -275,6 +279,11 @@ export default function QuickChat() {
 
             {/* Message Input */}
             <div className="p-4 border-t border-border bg-card">
+             {showEmojiPicker && (
+                <div className="absolute bottom-16 right-16 z-50">
+                  <EmojiPicker onEmojiClick={handleEmojiClick} />
+                </div>
+              )}
               <div className="flex items-center gap-2">
                 <Input
                   value={newMessage}
@@ -283,6 +292,13 @@ export default function QuickChat() {
                   placeholder="Type a message..."
                   className="flex-1"
                 />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setShowEmojiPicker((prev) => !prev)}
+                >
+                  <Smile className="h-5 w-5" />
+                </Button>
                 <Button onClick={handleSend} size="icon" disabled={!newMessage.trim()}>
                   <Send className="h-4 w-4" />
                 </Button>
