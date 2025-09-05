@@ -1,21 +1,18 @@
-/* Reset and full-screen layout */
 html, body, #root {
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   background-color: #f3f3f3;
   font-family: Arial, sans-serif;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
-/* Container takes full screen */
+/* Container fills available space */
 .container {
   flex: 1;
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -56,15 +53,15 @@ html, body, #root {
   color: white;
 }
 
-/* Editable textbox fills rest of the screen */
 .textbox {
   flex: 1;
   width: 100%;
+  min-height: 100vh;      /* ✅ at least one full screen height */
   padding: 16px;
   font-size: 16px;
   border: none;
   outline: none;
-  overflow-y: auto;
+  overflow-y: auto;       /* scroll inside if content is longer */
   background-color: #f9f9f9;
   box-sizing: border-box;
 }
@@ -94,7 +91,7 @@ html, body, #root {
   flex: 1;
 }
 
-/* Footer pinned at bottom */
+/* Footer stays below content */
 footer {
   text-align: center;
   font-size: 13px;
