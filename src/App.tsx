@@ -8,54 +8,31 @@ import QuickChat from "./pages/qchat/QuickChat";
 import Anonymous from "./pages/anonymous/Index";
 import ReadAnonymous from "./pages/anonymous/Read";
 import TextBoxPage from "./pages/textbox/Index";
-//import Chat from "./pages/chat/Chat";
-//import Login from "./pages/chat/Login";
-//import { ChatProvider } from "./contexts/ChatContext";
 
 const queryClient = new QueryClient();
 
-export default function App(){
+export default function App() {
   return (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          
-          <Route path="qchat/:name?/:sender?" element={<QuickChat />} />
-          
-          <Route path="anonymous" element={<Anonymous />} />
-          <Route path="anonymous/read" element={<ReadAnonymous />} />
-          
-          <Route path="textbox/:code?" element={<TextBoxPage />} />
-          
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
 
-          <Route path="/" element={<Home />} />
+            <Route path="qchat/:name?/:sender?" element={<QuickChat />} />
 
-{/*           
-          <Route path="chat/*"
-            element={
-              <ChatProvider>
-                <Routes>
-                  <Route path="login" element={<Login />} />
-                  <Route path="login/:username" element={<Login />} />
-                  <Route path=":sender" element={<Chat />} />
-                  <Route path=":sender/with" element={<Chat />} />
-                  <Route path=":sender/with/:recipient" element={<Chat />} />
-                  <Route path="*" element={<Chat />} />
-                </Routes>
-              </ChatProvider>
-            }
+            <Route path="anonymous" element={<Anonymous />} />
+            <Route path="anonymous/read" element={<ReadAnonymous />} />
 
-           
-          />
-            */}
+            <Route path="textbox/:code?" element={<TextBoxPage />} />
 
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-)
+            <Route path="/" element={<Home />} />
+
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  )
 
 }
