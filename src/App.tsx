@@ -11,28 +11,28 @@ import TextBoxPage from "./pages/textbox/Index";
 
 const queryClient = new QueryClient();
 
-export default function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <Routes>
+          
+          <Route path="qchat/:name?/:sender?" element={<QuickChat />} />
+          
+          <Route path="anonymous" element={<Anonymous />} />
+          <Route path="anonymous/read" element={<ReadAnonymous />} />
+          
+          <Route path="textbox/:code?" element={<TextBoxPage />} />
+        
+          <Route path="/" element={<Home />} />
+        
+        </Routes>
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
 
-            <Route path="qchat/:name?/:sender?" element={<QuickChat />} />
+);
 
-            <Route path="anonymous" element={<Anonymous />} />
-            <Route path="anonymous/read" element={<ReadAnonymous />} />
-
-            <Route path="textbox/:code?" element={<TextBoxPage />} />
-
-            <Route path="/" element={<Home />} />
-
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
-  )
-
-}
+export default App;
