@@ -23,7 +23,6 @@ export default function Home() {
       </Helmet>
 
       {/* Page content */}
-      <div className="overlay"></div>
       <div className="container mt-5">
         <div className="row d-flex justify-content-center">
           <div className="col-md-7">
