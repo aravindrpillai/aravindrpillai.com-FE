@@ -28,7 +28,6 @@ class ApiClient {
       return match;
     });
     const path = `${this.base}${resolvedPath}`;
-    console.log("URL : ", path)
     return path;
   }
 

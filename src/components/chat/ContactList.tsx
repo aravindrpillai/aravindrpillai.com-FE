@@ -23,7 +23,6 @@ export default function ContactList({setIsContactsOpenHandlerFromCOntactList}) {
         }
         else if(status === 403){
           setErrorMsg("unauthorised!!")
-          console.log("UN authorised")
         }else {
           setErrorMsg(error[0])
         }

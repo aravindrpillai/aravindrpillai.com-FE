@@ -21,8 +21,6 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("id", newId);
     localStorage.setItem("name", newName);
     localStorage.setItem("token", newToken);
-
-    console.log("From Chat Context : ", localStorage.getItem("id"), localStorage.getItem("name"), localStorage.getItem("token"))
   };
 
   const clearUser = () => {

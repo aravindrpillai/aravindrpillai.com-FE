@@ -8,6 +8,9 @@ import Login from "./pages/chat/Login";
 import { ChatProvider } from "./contexts/ChatContext";
 import Home from "./pages/home/Home";
 import QuickChat from "./pages/qchat/QuickChat";
+import Anonymous from "./pages/anonymous/Index";
+import ReadAnonymous from "./pages/anonymous/Read";
+import TextBoxPage from "./pages/textbox/Index";
 
 
 const queryClient = new QueryClient();
@@ -20,8 +23,12 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           
-          
           <Route path="qchat/:name?/:sender?" element={<QuickChat />} />
+          
+          <Route path="anonymous" element={<Anonymous />} />
+          <Route path="anonymous/read" element={<ReadAnonymous />} />
+          
+          <Route path="textbox/:code?" element={<TextBoxPage />} />
           
 
           <Route path="/" element={<Home />} />
