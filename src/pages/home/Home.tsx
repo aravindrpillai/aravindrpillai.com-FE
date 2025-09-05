@@ -72,7 +72,7 @@ export default function Home() {
 
                     <br /><br />
                     And finally, If you've ever felt the urge to share something with me without the fuss of revealing your true identity, look no further.
-                    Just click on the link <a href="http://tellme.aravindrpillai.com"><b>here</b></a> and spill the beans. Also, if you're interested in the stock market,
+                    Just click on the link <a href="http://aravindrpillai.com/anonymous"><b>here</b></a> and spill the beans. Also, if you're interested in the stock market,
                     don't forget to check out my prediction analyzer here. <a target="new" href="http://stk.aravindrpillai.com"><b>LongTerm</b></a> | <a target="new" href="http://intraday.aravindrpillai.com"><b>Intraday</b></a>.
 
 
