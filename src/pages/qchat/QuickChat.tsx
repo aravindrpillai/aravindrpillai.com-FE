@@ -16,9 +16,7 @@ export default function QuickChat() {
   const [headers, setHeaders] = useState<Record<string, string>>({});
   const [messages, setMessages] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
-
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-
   const lastIdRef = useRef(0);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [autoScroll, setAutoScroll] = useState(true);
@@ -52,7 +50,7 @@ export default function QuickChat() {
         setHeaders({
           "Content-Type": "application/json",
           name: name,
-          token: cd,
+          token: encryptCode(cd),
         });
         setStartPolling(true);
       }
@@ -60,7 +58,7 @@ export default function QuickChat() {
       setHeaders({
         "Content-Type": "application/json",
         name: name,
-        token: code,
+        token: encryptCode(code),
       });
       loadConversations();
       setStartPolling(true);
@@ -74,7 +72,7 @@ export default function QuickChat() {
     }
   }, [messages, autoScroll]);
 
-  // Polling every 5s
+  //Polling every 5s
   useEffect(() => {
     if (!startPolling) return;
 
@@ -107,9 +105,7 @@ export default function QuickChat() {
     if (confirm("Confirm action.")) {
       try {
         setLoading(true);
-        const url = ApiClient.buildFullUrl(
-          import.meta.env.VITE_QUICK_CHAT_CONVERSATIONS
-        );
+        const url = ApiClient.buildFullUrl(import.meta.env.VITE_QUICK_CHAT_CONVERSATIONS);
         let respAPIData = await fetch(url, { method: "DELETE", headers });
         const respData = await respAPIData.json();
         if (respAPIData.status === 403) {
@@ -176,9 +172,7 @@ export default function QuickChat() {
   const handleSend = async () => {
     if (!newMessage.trim()) return;
     try {
-      const url = ApiClient.buildFullUrl(
-        import.meta.env.VITE_QUICK_CHAT_CONVERSATIONS
-      );
+      const url = ApiClient.buildFullUrl(import.meta.env.VITE_QUICK_CHAT_CONVERSATIONS);
       let respAPIData = await fetch(url, {
         method: "POST",
         headers,
@@ -207,6 +201,22 @@ export default function QuickChat() {
       console.error("Decryption failed:", e);
       return "<Decryption Failed>";
     }
+  }
+
+
+  /**
+   * This function is spectifically to encrypt code. Decryption logic is in backend. 
+   * @param code 
+   * @returns 
+   */
+  function encryptCode(code) {
+    const key = CryptoJS.SHA256(code);
+    const encrypted = CryptoJS.AES.encrypt(code, key, {
+      iv: CryptoJS.enc.Utf8.parse(import.meta.env.VITE_QCHAT_ENCRYPTION_ID),
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7,
+    });
+    return encrypted.toString();
   }
 
   return (
