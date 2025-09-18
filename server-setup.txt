@@ -1,0 +1,12 @@
+curl -sL https://deb.nodesource.com/setup_current.x | sudo -E bash -    # Download Node
+sudo apt-get install nodejs -y                                          # Install Node
+apt install git                                                         # Instal git
+
+git clone https://github.com/aravindrpillai/aravindrpillai.com-FE.git   # Checkout code
+
+npm i                                                                   # do this inside the code's root folder
+
+npm install pm2@latest -g                                               # install "PM2" to handle the service 
+pm2 start npm --name "ui-app" -- run dev
+pm2 list                                                                # To show all services
+pm2 stop "ui-app"                                                       # To close the app

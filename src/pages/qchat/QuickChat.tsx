@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, Trash2Icon, Loader2, Smile } from "lucide-react";
+import { Play, Pause, Send, Trash2Icon, Loader2, Smile } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ApiClient from "@/lib/api";
 import CryptoJS from "crypto-js";
@@ -101,13 +101,17 @@ export default function QuickChat() {
     }
   }
 
+  async function pauseMsgs(){
+    setStartPolling(!startPolling)
+  }
+
   async function deleteMsgs() {
     if (confirm("Confirm action.")) {
       try {
         setLoading(true);
         const url = ApiClient.buildFullUrl(import.meta.env.VITE_QUICK_CHAT_CONVERSATIONS);
         let respAPIData = await fetch(url, { method: "DELETE", headers });
-        const respData = await respAPIData.json();
+        await respAPIData.json();
         if (respAPIData.status === 403) {
           setCode("");
           setMessages([]);
@@ -186,7 +190,9 @@ export default function QuickChat() {
       }
       let formattedData = respData.data;
       setMessages((prev) => mergeMessages(prev, [formattedData]));
-      lastIdRef.current = Math.max(lastIdRef.current, formattedData.id);
+      if(startPolling){
+        lastIdRef.current = Math.max(lastIdRef.current, formattedData.id);
+      }      
       setNewMessage("");
     } catch (error) {
       console.error("Failed to send message:", error);
@@ -245,8 +251,12 @@ export default function QuickChat() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
+                <Button variant="ghost" size="icon" onClick={pauseMsgs}>
+                  {!startPolling && <Play color="green" size={32}/>}
+                  {startPolling && <Pause color="red" size={32}/>}
+                </Button>
                 <Button variant="ghost" size="icon" onClick={deleteMsgs}>
-                  <Trash2Icon />
+                  <Trash2Icon color="orange" size={32}/>
                 </Button>
               </div>
             </div>
