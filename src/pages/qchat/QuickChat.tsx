@@ -111,11 +111,16 @@ export default function QuickChat() {
         setLoading(true);
         const url = ApiClient.buildFullUrl(import.meta.env.VITE_QUICK_CHAT_CONVERSATIONS);
         let respAPIData = await fetch(url, { method: "DELETE", headers });
-        await respAPIData.json();
+        let respData = await respAPIData.json();
         if (respAPIData.status === 403) {
+          console.log("Error while deleting messages : "+respData["detail"])
+          setStartPolling(false)
           setCode("");
           setMessages([]);
           return;
+        }
+        if(!startPolling){
+          setStartPolling(true)
         }
         setMessages([]);
       } catch (error) {
@@ -136,11 +141,16 @@ export default function QuickChat() {
       let respAPIData = await fetch(url, { method: "GET", headers });
       const respData = await respAPIData.json();
       if (respAPIData.status === 403) {
+        console.log("Error While Getting Conversations: "+respData["detail"])
+        setStartPolling(false)
         setCode("");
         setMessages([]);
         return [];
       }
       formattedData = respData.data;
+      if(!startPolling){
+        setStartPolling(true)
+      }
     } catch (error) {
       console.error("Failed to fetch messages:", error);
     } finally {
@@ -184,9 +194,14 @@ export default function QuickChat() {
       });
       const respData = await respAPIData.json();
       if (respAPIData.status === 403) {
+        console.log("Error While handling Send: "+respData["detail"])
+        setStartPolling(false)
         setCode("");
         setMessages([]);
         return;
+      }
+      if(!startPolling){
+        setStartPolling(true)
       }
       let formattedData = respData.data;
       setMessages((prev) => mergeMessages(prev, [formattedData]));
