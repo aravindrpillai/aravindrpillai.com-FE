@@ -77,6 +77,7 @@ export default function QuickChat() {
     if (!startPolling) return;
 
     const interval = setInterval(async () => {
+      setStartPolling(false)
       try {
         let msgs = await getConversations(lastIdRef.current, false);
         if (msgs && msgs.length > 0) {
@@ -84,8 +85,10 @@ export default function QuickChat() {
           const maxId = Math.max(...msgs.map((item) => item.id));
           lastIdRef.current = Math.max(lastIdRef.current, maxId);
         }
+        setStartPolling(true)
       } catch (error) {
         console.error("Polling failed:", error);
+        setStartPolling(false)
       }
     }, 1000);
 
@@ -145,7 +148,7 @@ export default function QuickChat() {
         setStartPolling(false)
         setCode("");
         setMessages([]);
-        return [];
+        throw new Error("getConv() Error : "+respData["detail"]);
       }
       formattedData = respData.data;
       if(!startPolling){
@@ -153,6 +156,7 @@ export default function QuickChat() {
       }
     } catch (error) {
       console.error("Failed to fetch messages:", error);
+      throw new Error("Error:> " +error);
     } finally {
       setLoading(false);
     }
