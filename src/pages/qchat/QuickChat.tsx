@@ -187,6 +187,23 @@ export default function QuickChat() {
     }
   };
 
+
+  async function pushEmail(){
+    try {
+      const url = ApiClient.buildFullUrl(import.meta.env.VITE_QUICK_CHAT_CONVERSATIONS);
+      let respAPIData = await fetch(url, { method: "PUT", headers });
+      const respData = await respAPIData.json();
+      if (respAPIData.status < 300) {
+        alert("Notified.!")
+      }else{
+        alert("Failed : "+respData["messages"][0])
+      }
+      return;
+    } catch (error) {
+      console.error("Failed to send email:", error);
+    }
+  }
+
   const handleSend = async () => {
     if (!newMessage.trim()) return;
     try {
@@ -270,6 +287,9 @@ export default function QuickChat() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
+                <Button variant="ghost" size="icon" onClick={pushEmail}>
+                  <Send color="green" size={32}/>
+                </Button>
                 <Button variant="ghost" size="icon" onClick={pauseMsgs}>
                   {!startPolling && <Play color="green" size={32}/>}
                   {startPolling && <Pause color="red" size={32}/>}

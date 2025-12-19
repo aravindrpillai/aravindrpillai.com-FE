@@ -8,7 +8,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link
           rel="icon"
-          href="https://s3.ap-south-1.amazonaws.com/aravindrpillai.com/arp.jpg"
+          href="/logo.png"
         />
         <title>Aravind R Pillai</title>
         <link
@@ -29,7 +29,7 @@ export default function Home() {
             <div className="card p-3 py-4">
               <center>
                 <img
-                  src="https://s3.ap-south-1.amazonaws.com/aravindrpillai.com/arp.jpg"
+                  src="/logo.png"
                   width="100"
                   height="100"
                   className="rounded-circle"
