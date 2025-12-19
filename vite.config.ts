@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => ({
   server: {
     allowedHosts: [
       '149.248.57.227', //BackEnd
-      '155.138.159.42', //FrontEnd
+      '216.128.176.119', //FrontEnd
       'aravindrpillai.com', 
       'www.aravindrpillai.com'
     ],
