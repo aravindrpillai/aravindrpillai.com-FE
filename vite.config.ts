@@ -6,7 +6,8 @@ import { componentTagger } from "lovable-tagger";
 export default defineConfig(({ mode }) => ({
   server: {
     allowedHosts: [
-      '35.182.227.27',
+      '149.248.57.227', //BackEnd
+      '155.138.159.42', //FrontEnd
       'aravindrpillai.com', 
       'www.aravindrpillai.com'
     ],
